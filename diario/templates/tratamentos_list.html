@@ -1,12 +1,16 @@
-{% extends 'diario/base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 <h2>Tratamentos</h2>
+<a href="{% url 'tratamento_create' %}">Novo Tratamento</a>
 <ul>
-  {% for tratamento in tratamentos %}
-  <li>
-    {{ tratamento.titulo }} - {{ tratamento.descricao }} - {{ tratamento.data }}
-  </li>
-  {% empty %}
-  <li>Nenhum tratamento cadastrado.</li>
-  {% endfor %}
+    {% for tratamento in tratamentos %}
+        <li>
+            {{ tratamento.nome }} - {{ tratamento.descricao }}
+            [<a href="{% url 'tratamento_edit' tratamento.pk %}">Editar</a>]
+            [<a href="{% url 'tratamento_delete' tratamento.pk %}">Remover</a>]
+        </li>
+    {% empty %}
+        <li>Nenhum tratamento registrado.</li>
+    {% endfor %}
 </ul>
 {% endblock %}

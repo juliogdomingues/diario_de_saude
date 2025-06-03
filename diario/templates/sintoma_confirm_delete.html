@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Remover Sintoma</h2>
+<p>Tem certeza que deseja remover "{{ sintoma.nome }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim, remover</button>
+    <a href="{% url 'sintomas_list' %}">Cancelar</a>
+</form>
+{% endblock %}

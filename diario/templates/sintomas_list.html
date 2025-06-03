@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Sintomas</h2>
+<a href="{% url 'sintoma_create' %}">Novo Sintoma</a>
+<ul>
+    {% for sintoma in sintomas %}
+        <li>
+            {{ sintoma.nome }} - {{ sintoma.descricao }}
+            [<a href="{% url 'sintoma_edit' sintoma.pk %}">Editar</a>]
+            [<a href="{% url 'sintoma_delete' sintoma.pk %}">Remover</a>]
+        </li>
+    {% empty %}
+        <li>Nenhum sintoma registrado.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

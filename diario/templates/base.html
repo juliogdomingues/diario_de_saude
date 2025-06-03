@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Diário de Saúde</title>
-  </head>
-  <body>
+</head>
+<body>
     <h1>Diário de Saúde</h1>
+    <nav>
+        <a href="{% url 'home' %}">Início</a> |
+        <a href="{% url 'sintomas_list' %}">Sintomas</a> |
+        <a href="{% url 'tratamentos_list' %}">Tratamentos</a>
+    </nav>
+    <hr>
     {% block content %}{% endblock %}
-  </body>
+</body>
 </html>

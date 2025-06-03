@@ -1,20 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 class Sintoma(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=100)
-    descricao = models.TextField()
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
     data = models.DateField()
+    horario = models.TimeField()
 
     def __str__(self):
-        return self.titulo
+        return f"{self.nome} ({self.data} {self.horario})"
 
 class Tratamento(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=100)
-    descricao = models.TextField()
-    data = models.DateField()
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True)
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
 
     def __str__(self):
-        return self.titulo
+        return self.nome

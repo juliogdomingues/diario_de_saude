@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Sintomas Recentes</h2>
+<ul>
+    {% for sintoma in sintomas %}
+        <li>
+            {{ sintoma.data|date:"d/m/Y" }} {{ sintoma.horario|time:"H:i" }} - {{ sintoma.nome }}: {{ sintoma.descricao }}
+        </li>
+    {% empty %}
+        <li>Nenhum sintoma registrado.</li>
+    {% endfor %}
+</ul>
+
+<h2>Tratamentos Recentes</h2>
+<ul>
+    {% for tratamento in tratamentos %}
+        <li>
+            {{ tratamento.nome }} ({{ tratamento.data_inicio|date:"d/m/Y" }}{% if tratamento.data_fim %} até {{ tratamento.data_fim|date:"d/m/Y" }}{% endif %}): {{ tratamento.descricao }}
+        </li>
+    {% empty %}
+        <li>Nenhum tratamento registrado.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

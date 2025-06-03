@@ -1,40 +1,76 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Sintoma, Tratamento
 from .forms import SintomaForm, TratamentoForm
-from django.contrib.auth.decorators import login_required
+from collections import defaultdict
 
-@login_required
-def listar_sintomas(request):
-    sintomas = Sintoma.objects.filter(usuario=request.user)
-    return render(request, 'diario/sintomas_list.html', {'sintomas': sintomas})
+def home(request):
+    sintomas = Sintoma.objects.all().order_by('-data', '-horario')
+    tratamentos = Tratamento.objects.all().order_by('-data_inicio')
+    return render(request, 'home.html', {
+        'sintomas': sintomas,
+        'tratamentos': tratamentos,
+    })
 
-@login_required
-def novo_sintoma(request):
+def sintomas_list(request):
+    sintomas = Sintoma.objects.all()
+    return render(request, 'sintomas_list.html', {'sintomas': sintomas})
+
+def sintoma_create(request):
     if request.method == 'POST':
         form = SintomaForm(request.POST)
         if form.is_valid():
-            sintoma = form.save(commit=False)
-            sintoma.usuario = request.user
-            sintoma.save()
-            return redirect('listar_sintomas')
+            form.save()
+            return redirect('sintomas_list')
     else:
         form = SintomaForm()
-    return render(request, 'diario/sintoma_form.html', {'form': form})
+    return render(request, 'sintoma_form.html', {'form': form})
 
-@login_required
-def listar_tratamentos(request):
-    tratamentos = Tratamento.objects.filter(usuario=request.user)
-    return render(request, 'diario/tratamentos_list.html', {'tratamentos': tratamentos})
+def sintoma_edit(request, pk):
+    sintoma = get_object_or_404(Sintoma, pk=pk)
+    if request.method == 'POST':
+        form = SintomaForm(request.POST, instance=sintoma)
+        if form.is_valid():
+            form.save()
+            return redirect('sintomas_list')
+    else:
+        form = SintomaForm(instance=sintoma)
+    return render(request, 'sintoma_form.html', {'form': form})
 
-@login_required
-def novo_tratamento(request):
+def sintoma_delete(request, pk):
+    sintoma = get_object_or_404(Sintoma, pk=pk)
+    if request.method == 'POST':
+        sintoma.delete()
+        return redirect('sintomas_list')
+    return render(request, 'sintoma_confirm_delete.html', {'sintoma': sintoma})
+
+def tratamentos_list(request):
+    tratamentos = Tratamento.objects.all()
+    return render(request, 'tratamentos_list.html', {'tratamentos': tratamentos})
+
+def tratamento_create(request):
     if request.method == 'POST':
         form = TratamentoForm(request.POST)
         if form.is_valid():
-            tratamento = form.save(commit=False)
-            tratamento.usuario = request.user
-            tratamento.save()
-            return redirect('listar_tratamentos')
+            form.save()
+            return redirect('tratamentos_list')
     else:
         form = TratamentoForm()
-    return render(request, 'diario/tratamento_form.html', {'form': form})
+    return render(request, 'tratamento_form.html', {'form': form})
+
+def tratamento_edit(request, pk):
+    tratamento = get_object_or_404(Tratamento, pk=pk)
+    if request.method == 'POST':
+        form = TratamentoForm(request.POST, instance=tratamento)
+        if form.is_valid():
+            form.save()
+            return redirect('tratamentos_list')
+    else:
+        form = TratamentoForm(instance=tratamento)
+    return render(request, 'tratamento_form.html', {'form': form})
+
+def tratamento_delete(request, pk):
+    tratamento = get_object_or_404(Tratamento, pk=pk)
+    if request.method == 'POST':
+        tratamento.delete()
+        return redirect('tratamentos_list')
+    return render(request, 'tratamento_confirm_delete.html', {'tratamento': tratamento})
