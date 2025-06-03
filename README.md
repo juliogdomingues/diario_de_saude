@@ -1,8 +1,9 @@
 # Diário de Saúde
 
 ## 1. Membros do Grupo
-- Nome 1
-- Nome 2
+- Fernanda Vieira Pagano
+- Júlio Guerra Domingues 
+- Marcos Felipe Cavalieri
 
 ## 2. Sobre o Sistema
 
