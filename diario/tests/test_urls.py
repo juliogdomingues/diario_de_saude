@@ -14,3 +14,18 @@ def test_urls_with_args():
     assert resolve(reverse("sintoma_delete", args=[1]))
     assert resolve(reverse("tratamento_edit", args=[1]))
     assert resolve(reverse("tratamento_delete", args=[1]))
+
+def test_url_home_path():
+    # Testa se a URL da home está correta
+    url = reverse("home")
+    assert url == "/"
+
+def test_url_sintomas_list_path():
+    # Testa se a URL da lista de sintomas contém a palavra 'sintoma'
+    url = reverse("sintomas_list")
+    assert "sintoma" in url
+
+def test_url_tratamentos_list_path():
+    # Testa se a URL da lista de tratamentos contém a palavra 'tratamento'
+    url = reverse("tratamentos_list")
+    assert "tratamento" in url

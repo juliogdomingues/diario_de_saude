@@ -4,12 +4,16 @@ from diario.models import Sintoma, Tratamento
 from django.utils import timezone
 
 @pytest.mark.django_db
-def test_home_view(client):
+def test_home_view_status_code(client):
     url = reverse("home")
     response = client.get(url)
     assert response.status_code == 200
-    content = response.content.decode("utf-8")
-    assert "Diário de Saúde" in content
+
+@pytest.mark.django_db
+def test_home_view_contem_titulo(client):
+    url = reverse("home")
+    response = client.get(url)
+    assert "Diário de Saúde" in response.content.decode()
 
 @pytest.mark.django_db
 def test_sintoma_edit_view(client):
@@ -72,3 +76,27 @@ def test_tratamento_delete_view(client):
     response = client.post(url)
     assert response.status_code == 302
     assert not Tratamento.objects.filter(pk=tratamento.pk).exists()
+
+@pytest.mark.django_db
+def test_sintomas_list_view_status_code(client):
+    url = reverse("sintomas_list")
+    response = client.get(url)
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_tratamentos_list_view_status_code(client):
+    url = reverse("tratamentos_list")
+    response = client.get(url)
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_sintoma_create_view_get(client):
+    url = reverse("sintoma_create")
+    response = client.get(url)
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_tratamento_create_view_get(client):
+    url = reverse("tratamento_create")
+    response = client.get(url)
+    assert response.status_code == 200
