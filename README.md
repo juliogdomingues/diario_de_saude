@@ -64,14 +64,14 @@ pytest
 Cobertura padrão:
 
 ```sh
-coverage run -m pytest
+coverage run --source=diario,DiarioDeSaude -m pytest
 coverage report -m
 ```
 
 Cobertura de branches:
 
 ```sh
-coverage run --branch -m pytest
+coverage run --branch --source=diario,DiarioDeSaude -m pytest
 coverage report -m
 ```
 
