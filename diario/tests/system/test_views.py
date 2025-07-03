@@ -100,3 +100,20 @@ def test_tratamento_create_view_get(client):
     url = reverse("tratamento_create")
     response = client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_form_validacao_de_erro_inserir_sintoma(client):
+    url = reverse('sintoma_create')
+    response = client.post(url, {})
+    assert response.status_code == 200
+    assert "Este campo é obrigatório." in response.content.decode()
+
+
+@pytest.mark.django_db
+def test_form_validacao_de_erro_inserir_tratamento(client):
+    url = reverse('tratamento_create')
+    response = client.post(url, {})
+    assert response.status_code == 200
+    assert "Este campo é obrigatório." in response.content.decode()
+
